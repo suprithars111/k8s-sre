@@ -1,0 +1,32 @@
+{{- if .Values.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "k8s-sre-tool.fullname" . }}
+  labels:
+    {{- include "k8s-sre-tool.labels" . | nindent 4 }}
+rules:
+  # Story 1: report Deployment health across namespaces.
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch"]
+  # Story 2: manage isolation NetworkPolicies.
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["networkpolicies"]
+    verbs: ["get", "list", "create", "update", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "k8s-sre-tool.fullname" . }}
+  labels:
+    {{- include "k8s-sre-tool.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "k8s-sre-tool.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "k8s-sre-tool.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end }}

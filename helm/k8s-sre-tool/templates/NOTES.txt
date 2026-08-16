@@ -1,0 +1,10 @@
+{{ .Chart.Name }} deployed as release {{ .Release.Name }} in namespace {{ .Release.Namespace }}.
+
+Port-forward to reach the API:
+
+  kubectl -n {{ .Release.Namespace }} port-forward svc/{{ include "k8s-sre-tool.fullname" . }} {{ .Values.service.port }}:{{ .Values.service.port }}
+
+Then:
+
+  curl http://localhost:{{ .Values.service.port }}/readyz
+  curl http://localhost:{{ .Values.service.port }}/api/v1/deployments/health

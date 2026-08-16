@@ -1,0 +1,46 @@
+replicaCount: 1
+
+image:
+  # Override with your fork's image, e.g. ghcr.io/<your-user>/kubernetes-sre-tooling
+  repository: ghcr.io/suprithars111/k8s-sre
+  tag: latest
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+serviceAccount:
+  # Create the ServiceAccount as part of the release.
+  create: true
+  # Name of the ServiceAccount; generated from the release name when empty.
+  name: ""
+
+rbac:
+  # Create the ClusterRole/ClusterRoleBinding the tool needs to read
+  # Deployments and manage NetworkPolicies cluster-wide.
+  create: true
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    memory: 128Mi
+
+podSecurityContext:
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop: [ALL]
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
