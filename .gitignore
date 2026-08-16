@@ -2,4 +2,7 @@
 .venv
 __pycache__
 
-tyk-sre-assignment
+# locally built binaries
+/k8s-sre-tool
+/golang/k8s-sre-tool
+.DS_Store
