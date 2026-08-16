@@ -1,0 +1,9 @@
+# kind cluster with the default CNI disabled so Calico can be installed.
+# Calico (or another NetworkPolicy-capable CNI) is required to *enforce*
+# the isolation policies this tool creates - kind's default kindnet ignores
+# NetworkPolicy objects entirely.
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  disableDefaultCNI: true
+  podSubnet: 192.168.0.0/16
