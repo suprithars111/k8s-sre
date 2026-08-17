@@ -1,4 +1,4 @@
-# SRE tooling assignment - solution
+# SRE tooling 
 
 This repository extends the provided Go tool into a single deployable service
 covering all five user stories:
